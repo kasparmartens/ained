@@ -1,0 +1,465 @@
+﻿<!DOCTYPE html>
+
+	
+<style>
+
+.node {
+  font-family: Optima, Segoe, "Segoe UI", Candara, Calibri, Arial, sans-serif;
+  font-size: 11pt;
+  fill: #bbb;
+  font-variant: small-caps; 
+}
+
+.node:hover {
+  fill: #000;
+}
+
+.link {
+  stroke: steelblue;
+  stroke-opacity: .35;
+  fill: none;
+  pointer-events: none;
+}
+
+.node:hover,
+.node--source,
+.node--target {
+  font-weight: 700;
+}
+
+.node--source {
+  fill: #2ca02c;
+}
+
+.node--target {
+  fill: #d62728;
+}
+
+.node--source2 {
+  fill: #2ca02c;
+  font-weight: 600;
+}
+
+.node--target2 {
+  fill: #d62728;
+  font-weight: 600;
+}
+
+.link--source,
+.link--target {
+  stroke-opacity: 1;
+  stroke-width: 2px;
+}
+
+.link--source2,
+.link--target2 {
+  stroke-opacity: 1;
+  stroke-width: 2px;
+}
+
+.link--source, 
+.link--source2{
+  stroke: #d62728;
+}
+
+.link--target,
+.link--target2 {
+  stroke: #2ca02c;
+}
+
+.d3-tip {
+  line-height: 1.2;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  font-size: 11pt;
+  color: #fff;
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+body > .container {
+  padding: 40px 15px 0;
+}
+.container .text-muted {
+  margin: 20px 0;
+}
+
+.footer > .container {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+code {
+  font-size: 80%;
+}
+</style>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Fixed Top Navbar Example for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Õppeainete skeem</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a onclick="vali_oppekava('remove')">Avaleht</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Matemaatika  <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a onclick="vali_oppekava('mat_baka')">baka 2014/2015</a></li>
+                <li><a >Mingi muu valik</a></li>
+              </ul>
+            </li>
+			<li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Statistika <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a onclick="vali_oppekava('stat_baka')">baka 2014/2015</a></li>
+                <li><a >Mingi muu valik</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+	
+
+	  
+    <div class="container">
+      <div class="page-header">
+        <h3 class="lead">Skeem: kuidas on omavahel seotud erinevad õppeained.</h3>
+		<p> Siit saad teada, kas ühes aines õpitut läheb hiljem teistes õppeainetes vaja. (Vihje: õige vastus on "jah"!)
+		<ul>
+			  <li>Punaste joontega on iga aine jaoks näidatud eeldusained. Need on sellised õppeained, kus õpitud teadmisi läheb kindlasti vaja antud aines ning ilma milleta kohe üldse ei saa.</li>
+			  <li>Rohelised jooned näitavad, kus läheb hiljem vaja antud aines õpitut.</li>
+			  <li>Katkendjoonega on tähistatud need soovituslikud eeldusained, mis pole tingimata vajalikud, aga nende eelnev (või samaaegne) õppimine tuleb kasuks antud aine kontekstis.</li>
+			  <li>Skeemil on lisaks kohustuslikele ka mõned õppekavavälised ained, mis on tähistatud tärniga *.</li>
+			</ul>
+		</p>
+      </div>
+      
+      
+    </div>
+	
+	
+    <div id="skeem">
+    </div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+	
+
+	
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+<script type="text/javascript" src="jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="ained_stat_baka.json"></script>
+<script type="text/javascript" src="ained_mat_baka.json"></script>
+
+
+
+
+
+
+	  <body>
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+<script>
+
+var diameter = 600,
+    radius = diameter / 2,
+    innerRadius = radius - 120,
+	margin = {top: 80, right: 120, bottom: 85, left: 120},
+	svg_width = diameter + margin.left + margin.right,
+	svg_height = diameter + margin.top + margin.bottom;
+
+var cluster = d3.layout.cluster()
+    .size([360, innerRadius])
+    .sort(null)
+    .value(function(d) { return 1; });
+
+var bundle = d3.layout.bundle();
+
+var line = d3.svg.line.radial()
+    .interpolate("bundle")
+    .tension(0.8)
+    .radius(function(d) { return d.y; })
+    .angle(function(d) { return d.x / 180 * Math.PI; });
+
+var svg = d3.select("#skeem").append("svg")
+	.attr("id", "skeemi_ID")
+    .attr("width", 10) // ajutine
+    .attr("height", 10) // ajutine
+  .append("g")
+    .attr("transform", "translate(" + (radius + margin.left) + "," + (radius + margin.top) + ")");
+
+
+function vali_oppekava(d){
+
+	d3.select("#seosed").remove();
+	d3.select("#oppeained").remove();
+
+	d3.select("#skeem").append("svg")
+	.attr("id", "skeemi_ID")
+    .attr("width", 10) // ajutine
+    .attr("height", 10) // ajutine
+  .append("g")
+    .attr("transform", "translate(" + (radius + margin.left) + "," + (radius + margin.top) + ")");
+
+	
+	if(d == "intro"){
+		d3.select("svg") 
+			.attr("width", 0)
+			.attr("height", 0)
+		.append("g")
+			.attr("transform", "translate(" + (radius + margin.left) + "," + (radius + margin.top) + ")");
+
+		d3.select("#header p").html(textintro);
+		d3.select("#juhised p").html(juhised_intro);
+	}
+	else{
+		d3.select("svg")    
+			.attr("width", svg_width)
+			.attr("height", svg_height)
+		.append("g")
+			.attr("transform", "translate(" + (radius + margin.left) + "," + (radius + margin.top) + ")");
+		
+		if(d == "stat_baka"){
+			create_figure(stat_baka);
+		}
+		else if(d == "mat_baka"){
+			create_figure(mat_baka);
+		}
+		else if(d == "mat_mag"){
+			create_figure(mat_mag);
+		}
+		else if(d== "remove"){
+			//d3.select("#skeemi_ID").select("svg").remove();
+			svg.selectAll("*").remove();
+		}
+	}
+	
+
+};
+
+function create_figure(classes){
+
+	var link = svg.append("g").attr("id", "seosed").selectAll(".link"),
+		node = svg.append("g").attr("id", "oppeained").selectAll(".node");
+		
+		
+	//d3.json("ained_mat.json", function(error, classes) {
+
+	  var nodes = cluster.nodes(packageHierarchy(classes)),
+		  links = packageImports(nodes),
+		  links2 = packageImports2(nodes);
+
+
+	  link2 = link
+		  .data(bundle(links2))
+		.enter().append("path")
+		  .each(function(d) { d.source2 = d[0], d.target2 = d[d.length - 1]; })
+		  .attr("class", "link")
+		  .style("stroke-dasharray", ("5, 5"))
+		  .attr("d", line);
+		  
+	 link = link
+		  .data(bundle(links))
+		.enter().append("path")
+		  .each(function(d) { d.source = d[0], d.target = d[d.length - 1]; })
+		  .attr("class", "link")
+		  .attr("d", line);
+		  
+	  node = node
+		  .data(nodes.filter(function(n) { return !n.children; }))
+		.enter().append("text")
+		  .attr("class", "node")
+		  .attr("dx", function(d) { return d.x < 180 ? 8 : -8; })
+		  .attr("dy", ".31em")
+		  .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")" + (d.x < 180 ? "" : "rotate(180)"); })
+		  .style("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
+		  .text(function(d) { return d.key; })
+		  .on("mouseover", mouseovered)
+		  .on("mouseout", mouseouted);
+	// });
+
+	function mouseovered(d) {
+
+	  node
+		  .each(function(n) { n.target = n.source = false; });
+	  node
+		  .each(function(n) { n.target2 = n.source2 = false; });
+
+
+	  link
+		  .classed("link--target", function(l) { if (l.target === d) return l.source.source = true; })
+		  .classed("link--source", function(l) {if (l.source === d) return l.target.target = true; })
+		.filter(function(l) { return l.target === d || l.source === d; })
+		  .each(function() { this.parentNode.appendChild(this); });
+		  
+	  link2
+		  .classed("link--target2", function(l) { if (l.target2 === d) return l.source2.source2 = true; })
+		  .classed("link--source2", function(l) {if (l.source2 === d) return l.target2.target2 = true; })
+		.filter(function(l) { return l.target2 === d || l.source2 === d; })
+		  .each(function() { this.parentNode.appendChild(this); });
+
+
+	  node
+		  .classed("node--target", function(n) { return n.target; })
+		  .classed("node--source", function(n) { return n.source; });
+		  
+	  node
+		  .classed("node--target2", function(n) { return n.target2; })
+		  .classed("node--source2", function(n) { return n.source2; });
+
+	}
+
+
+	function mouseouted(d) {
+
+	  link
+		  .classed("link--target", false)
+		  .classed("link--source", false);
+		  
+	  link2
+		  .classed("link--target2", false)
+		  .classed("link--source2", false);
+
+	  node
+		  .classed("node--target", false)
+		  .classed("node--source", false);
+	  node
+		  .classed("node--target2", false)
+		  .classed("node--source2", false);
+
+	}
+
+	d3.select(self.frameElement).style("height", diameter + "px");
+
+	// Lazily construct the package hierarchy from class names.
+	function packageHierarchy(classes) {
+	  var map = {};
+
+	  function find(name, data) {
+		var node = map[name], i;
+		if (!node) {
+		  node = map[name] = data || {name: name, children: []};
+		  if (name.length) {
+			node.parent = find(name.substring(0, i = name.lastIndexOf("_")));
+			node.parent.children.push(node);
+			node.key = name.substring(i + 1);
+		  }
+		}
+		return node;
+	  }
+
+	  classes.forEach(function(d) {
+		var newname = d.semester.concat("_", d.aine);
+		find(newname, d);
+	  });
+
+	  return map[""];
+	}
+
+	// Return a list of imports for the given array of nodes.
+	function packageImports(nodes) {
+	  var map = {},
+		  imports = [];
+
+	  // Compute a map from name to node.
+	  nodes.forEach(function(d) {
+		map[d.aine] = d;
+	  });
+
+	  // For each import, construct a link from the source to target node.
+	  nodes.forEach(function(d) {
+		if (d.eeldusained) d.eeldusained.forEach(function(i) {
+		  imports.push({source: map[d.aine], target: map[i]});
+		});
+	  });
+
+	  return imports;
+	}
+
+	function packageImports2(nodes) {
+	  var map = {},
+		  imports = [];
+
+	  // Compute a map from name to node.
+	  nodes.forEach(function(d) {
+		map[d.aine] = d;
+	  });
+
+	  // For each import, construct a link from the source to target node.
+	  nodes.forEach(function(d) {
+		if (d.eeldusained2) d.eeldusained2.forEach(function(i) {
+		  imports.push({source: map[d.aine], target: map[i]});
+		});
+	  });
+
+	  return imports;
+	}
+};
+
+$("#filters a").click(function() {
+    $("#filters a").removeClass("active");
+    $(this).addClass("active");
+	
+	var ind = $(this).attr("id");
+	
+});
+
+
+d3.select("#skeem").attr("align","center");
+
+</script>
+
+
+	
+  </body>
+</html>
+
+
+
