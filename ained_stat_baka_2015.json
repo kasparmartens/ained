@@ -1,4 +1,6 @@
 ﻿var stat_baka_2015 = [
+{"aine":"Analüütiline geomeetria", 
+	"semester":"sügis1"},
 {"aine":"Kõrgem matemaatika I", 
 	"semester":"sügis1", 
 	"eeldusained2":["Matemaatiline maailmapilt"]},
@@ -35,9 +37,6 @@
 	"semester":"sügis2",
 	"eeldusained":["Programmeerimine"],
 	"eeldusained2":["Kõrgem matemaatika I"]},
-{"aine":"Analüütiline geomeetria", 
-	"semester":"sügis2",
-	"eeldusained":["Algebra I"]},
 {"aine":"Diferentsiaalvõrrandid", 
 	"semester":"sügis2",
 	"eeldusained":["Kõrgem matemaatika II", "Algebra I"]},
